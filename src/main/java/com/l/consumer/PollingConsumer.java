@@ -25,7 +25,8 @@ public class PollingConsumer {
     }
 
     @RabbitListener(queuesToDeclare = @Queue("work_queue"))
-    public void workQueue2(String message) {
+    public void workQueue2(String message) throws InterruptedException {
+        Thread.sleep(1000);
         System.out.println("WorkConsumer.workQueue2 = " + message);
     }
 

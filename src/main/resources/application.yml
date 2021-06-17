@@ -4,3 +4,7 @@ spring:
     port: 5672
     username: admin
     password: 123456
+    listener:
+      simple:
+        prefetch: 1
+        acknowledge-mode: auto
