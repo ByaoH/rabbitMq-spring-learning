@@ -10,7 +10,8 @@ class RabbitmqSpringBootApplicationTests {
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Test
-    void contextLoads() {
+    void test() {
+        rabbitTemplate.convertAndSend("simple_queue", "test");
     }
 
 }
