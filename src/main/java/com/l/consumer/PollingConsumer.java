@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  * @date 2021-06-17 16:31
  */
 @Component
-public class WorkConsumer {
+public class PollingConsumer {
     private final RabbitTemplate rabbitTemplate;
 
-    public WorkConsumer(RabbitTemplate rabbitTemplate) {
+    public PollingConsumer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
