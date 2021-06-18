@@ -1,5 +1,6 @@
 package com.l.controller;
 
+import com.l.config.RabbitConfiguration;
 import com.l.consumer.DirectConsumer;
 import com.l.consumer.FanoutConsumer;
 import com.l.consumer.PollingConsumer;
@@ -56,5 +57,10 @@ public class RabbitController {
     @GetMapping("/sendTopicQueue/{key}/{message}")
     public void sendTopicQueue(@PathVariable String key, @PathVariable String message) {
         topicConsumer.send(key, message);
+    }
+
+    @GetMapping("/configTopicQueue/{key}/{message}")
+    public void configTopicQueue(@PathVariable String key, @PathVariable String message) {
+        rabbitTemplate.convertSendAndReceive(RabbitConfiguration.TOPIC_EXCHANGE, key, message);
     }
 }
