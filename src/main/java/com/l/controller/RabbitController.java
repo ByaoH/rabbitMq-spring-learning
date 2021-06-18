@@ -3,6 +3,7 @@ package com.l.controller;
 import com.l.consumer.DirectConsumer;
 import com.l.consumer.FanoutConsumer;
 import com.l.consumer.PollingConsumer;
+import com.l.consumer.TopicConsumer;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +23,14 @@ public class RabbitController {
     private final PollingConsumer pollingConsumer;
     private final FanoutConsumer fanoutConsumer;
     private final DirectConsumer directConsumer;
+    private final TopicConsumer topicConsumer;
 
-    public RabbitController(RabbitTemplate rabbitTemplate, PollingConsumer pollingConsumer, FanoutConsumer fanoutConsumer, DirectConsumer directConsumer) {
+    public RabbitController(RabbitTemplate rabbitTemplate, PollingConsumer pollingConsumer, FanoutConsumer fanoutConsumer, DirectConsumer directConsumer, TopicConsumer topicConsumer) {
         this.rabbitTemplate = rabbitTemplate;
         this.pollingConsumer = pollingConsumer;
         this.fanoutConsumer = fanoutConsumer;
         this.directConsumer = directConsumer;
+        this.topicConsumer = topicConsumer;
     }
 
     @GetMapping("/sendQueue")
@@ -48,5 +51,10 @@ public class RabbitController {
     @GetMapping("/sendDirectQueue/{key}/{message}")
     public void sendDirectQueue(@PathVariable String key, @PathVariable String message) {
         directConsumer.send(key, message);
+    }
+
+    @GetMapping("/sendTopicQueue/{key}/{message}")
+    public void sendTopicQueue(@PathVariable String key, @PathVariable String message) {
+        topicConsumer.send(key, message);
     }
 }
