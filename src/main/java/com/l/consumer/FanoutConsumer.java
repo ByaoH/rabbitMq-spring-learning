@@ -30,7 +30,7 @@ public class FanoutConsumer {
             )
     })
     public void fanoutQueue1(String message) {
-        System.out.println("FanoutConsumer.fanoutQueue1 = " + message);
+        log.info("FanoutConsumer.fanoutQueue1 = {}", message);
     }
 
     @RabbitListener(bindings = {
@@ -39,8 +39,9 @@ public class FanoutConsumer {
                     exchange = @Exchange(name = "order_exchange", type = "fanout") // 交换机与类型
             )
     })
-    public void fanoutQueue2(String message) {
-        System.out.println("FanoutConsumer.fanoutQueue2 = " + message);
+    public void fanoutQueue2(String message) throws InterruptedException {
+        Thread.sleep(2000);
+        log.info("FanoutConsumer.fanoutQueue2= {}", message);
     }
 
     public void send(String message) {

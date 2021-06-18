@@ -1,5 +1,6 @@
 package com.l.consumer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,11 +16,12 @@ import org.springframework.stereotype.Component;
  * @autoDelete 表示消息队列没有在使用时将被自动删除，默认是 false
  * @date 2021-06-17 14:25
  */
+@Slf4j
 @Component
 @RabbitListener(queuesToDeclare = @Queue(value = "simple_queue", durable = "true", exclusive = "false", autoDelete = "false"))
 public class QueueConsumer {
     @RabbitHandler
     public void test(String message) {
-        System.out.println("message = " + message);
+        log.info("message = " + message);
     }
 }
