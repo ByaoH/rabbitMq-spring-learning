@@ -1,5 +1,6 @@
 package com.l.controller;
 
+import com.l.consumer.DirectConsumer;
 import com.l.consumer.FanoutConsumer;
 import com.l.consumer.PollingConsumer;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,11 +21,13 @@ public class RabbitController {
     private final RabbitTemplate rabbitTemplate;
     private final PollingConsumer pollingConsumer;
     private final FanoutConsumer fanoutConsumer;
+    private final DirectConsumer directConsumer;
 
-    public RabbitController(RabbitTemplate rabbitTemplate, PollingConsumer pollingConsumer, FanoutConsumer fanoutConsumer) {
+    public RabbitController(RabbitTemplate rabbitTemplate, PollingConsumer pollingConsumer, FanoutConsumer fanoutConsumer, DirectConsumer directConsumer) {
         this.rabbitTemplate = rabbitTemplate;
         this.pollingConsumer = pollingConsumer;
         this.fanoutConsumer = fanoutConsumer;
+        this.directConsumer = directConsumer;
     }
 
     @GetMapping("/sendQueue")
@@ -40,5 +43,10 @@ public class RabbitController {
     @GetMapping("/sendFanoutQueue/{message}")
     public void sendFanoutQueue(@PathVariable String message) {
         fanoutConsumer.send(message);
+    }
+
+    @GetMapping("/sendDirectQueue/{key}/{message}")
+    public void sendDirectQueue(@PathVariable String key, @PathVariable String message) {
+        directConsumer.send(key, message);
     }
 }
