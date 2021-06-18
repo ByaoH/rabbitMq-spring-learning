@@ -1,5 +1,6 @@
 package com.l.controller;
 
+import com.l.consumer.FanoutConsumer;
 import com.l.consumer.PollingConsumer;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class RabbitController {
     private final RabbitTemplate rabbitTemplate;
     private final PollingConsumer pollingConsumer;
+    private final FanoutConsumer fanoutConsumer;
 
-    public RabbitController(RabbitTemplate rabbitTemplate, PollingConsumer pollingConsumer) {
+    public RabbitController(RabbitTemplate rabbitTemplate, PollingConsumer pollingConsumer, FanoutConsumer fanoutConsumer) {
         this.rabbitTemplate = rabbitTemplate;
         this.pollingConsumer = pollingConsumer;
+        this.fanoutConsumer = fanoutConsumer;
     }
 
     @GetMapping("/sendQueue")
@@ -32,5 +35,10 @@ public class RabbitController {
     @GetMapping("/sendWorkQueue/{message}")
     public void sendWorkQueue(@PathVariable String message) {
         pollingConsumer.send(message);
+    }
+
+    @GetMapping("/sendFanoutQueue/{message}")
+    public void sendFanoutQueue(@PathVariable String message) {
+        fanoutConsumer.send(message);
     }
 }
